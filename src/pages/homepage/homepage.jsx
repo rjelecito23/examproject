@@ -1,7 +1,6 @@
-import React, {useState, useEffect} from 'react';
-// import {Switch, Route} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import Header from '../../components/header/header';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { fade, withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -9,79 +8,105 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { Tab } from '@material-ui/core';
+import EditModal from '../../components/edit-modal/edit';
+import SearchBar from '../../components/search/search';
+import RemoveRow from '../../components/remove/remove';
+import AddModal from '../../components/add-modal/addModal'
+import DeleteIcon from '@material-ui/icons/Delete';
+import { fetchSongs } from '../../store/actions/actions';
+import { connect } from 'react-redux';
 
-
-
-const useStyle = makeStyles({
-    table: {
-        minWidth: 650,
-    }
-})
+const useStyle = makeStyles(theme => ({
+	table: {
+		minWidth: 650,
+	},
+	search: {
+		position: 'relative',
+		borderRadius: theme.shape.borderRadius,
+		backgroundColor: fade(theme.palette.common.white, 0.15),
+		'&:hover': {
+			backgroundColor: fade(theme.palette.common.white, 0.25),
+		},
+		marginRight: theme.spacing(2),
+		marginLeft: 0,
+		width: '100%',
+		[theme.breakpoints.up('sm')]: {
+			marginLeft: theme.spacing(3),
+			width: 'auto',
+		},
+	},
+}));
 
 const StyledTableCell = withStyles(theme => ({
-    head: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-    },
-    body: {
-      fontSize: 14,
-    },
-  }))(TableCell);
-  
-  const StyledTableRow = withStyles(theme => ({
-    root: {
-      '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.background.default,
-      },
-    },
-  }))(TableRow)
+	head: {
+		backgroundColor: theme.palette.common.black,
+		color: theme.palette.common.white,
+	},
+	body: {
+		fontSize: 14,
+	},
+}))(TableCell);
 
+const StyledTableRow = withStyles(theme => ({
+	root: {
+		'&:nth-of-type(odd)': {
+			backgroundColor: theme.palette.background.default,
+		},
+	},
+}))(TableRow);
 
+function HomePage({ Songs, fetchSong }) {
+	const classes = useStyle();
 
-function HomePage() {
-    const classes = useStyle();
-    const [dataAlbum, setDataAlbum] = useState([])
+	useEffect(() => {
+		fetchSong();
+	}, []);
 
-    async function fetchdata() {
-        // const res = await fetch("https://jsonplaceholder.typicode.com/todos/1")
-        const res = await fetch("https://api.spotify.com/v1/artists/0TnOYISbd1XYRBk9myaseg/albums?include_groups=single%2Cappears_on&market=ES&limit=1&offset=5")
-        
-        res.json()
-        .then(res => dataAlbum(res))
-        .catch(err => console.log(err))
-        console.log(res)
-    }
-
-    useEffect(() => {
-        fetchdata()
-    },[])
-    return (
-        <div>
-            <Header />
-            <TableContainer component={Paper}>
-                <Table classesName={classes.table} arial-label='customized table'>
-                    <TableHead>
-                        <TableRow>
-                            <StyledTableCell>Album</StyledTableCell>
-                            <StyledTableCell align="right">Song</StyledTableCell>
-                            <StyledTableCell align="right">Artist</StyledTableCell>
-
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {dataAlbum.map(data => (
-                            <StyledTableRow key={data.id}>
-                              <StyledTableCell component='th' scope='row'>
-                                {data.album_group}
-                              </StyledTableCell>
-                            </StyledTableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </div>
-    )
+	return (
+		<div>
+			<Header />
+			<div className={classes.search}><SearchBar Songs={Songs} fetchSong={fetchSong} /></div>
+			<TableContainer component={Paper}>
+				<Table className={classes.table} arial-label="customized table">
+					<TableHead>
+						<TableRow>
+							<StyledTableCell>Songs</StyledTableCell>
+							<StyledTableCell align="right">Artists</StyledTableCell>
+							<StyledTableCell align="right">Edit</StyledTableCell>
+							<StyledTableCell align="right">Delete</StyledTableCell>
+						</TableRow>
+					</TableHead>
+					<div><AddModal fetchSong={fetchSong} /></div>	
+					<TableBody>
+						{Songs.map(music => (
+							<StyledTableRow key={music.id}>
+								<StyledTableCell component="th" scope="row">
+									{music.title}
+								</StyledTableCell>
+								<StyledTableCell align="right">{music.singer}</StyledTableCell>
+								<StyledTableCell align="right"><EditModal music={music} fetchSong={fetchSong} Songs={Songs} /></StyledTableCell>
+								<StyledTableCell align="right">
+									<RemoveRow music={music} fetchSong={fetchSong} />
+								</StyledTableCell>
+							</StyledTableRow>
+						))}
+					</TableBody>
+				</Table>
+			</TableContainer>
+		</div>
+	);
 }
 
-export default HomePage;
+const mapStateToProps = state => {
+	return {
+		Songs: state.songs,
+	};
+};
+
+const mapDispatchToProps = dispatch => {
+	return {
+		fetchSong: () => dispatch(fetchSongs()),
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
