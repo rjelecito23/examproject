@@ -12,7 +12,6 @@ import EditModal from '../../components/edit-modal/edit';
 import SearchBar from '../../components/search/search';
 import RemoveRow from '../../components/remove/remove';
 import AddModal from '../../components/add-modal/addModal'
-import DeleteIcon from '@material-ui/icons/Delete';
 import { fetchSongs } from '../../store/actions/actions';
 import { connect } from 'react-redux';
 
@@ -65,7 +64,7 @@ function HomePage({ Songs, fetchSong }) {
 	return (
 		<div>
 			<Header />
-			<div className={classes.search}><SearchBar Songs={Songs} fetchSong={fetchSong} /></div>
+			<div className={classes.search}><SearchBar fetchSong={fetchSong} /></div>
 			<TableContainer component={Paper}>
 				<Table className={classes.table} arial-label="customized table">
 					<TableHead>
@@ -84,9 +83,9 @@ function HomePage({ Songs, fetchSong }) {
 									{music.title}
 								</StyledTableCell>
 								<StyledTableCell align="right">{music.singer}</StyledTableCell>
-								<StyledTableCell align="right"><EditModal music={music} fetchSong={fetchSong} Songs={Songs} /></StyledTableCell>
+								<StyledTableCell align="right"><EditModal music={music} fetchSong={fetchSong} /></StyledTableCell>
 								<StyledTableCell align="right">
-									<RemoveRow music={music} fetchSong={fetchSong} />
+									<RemoveRow fetchSong={fetchSong} />
 								</StyledTableCell>
 							</StyledTableRow>
 						))}

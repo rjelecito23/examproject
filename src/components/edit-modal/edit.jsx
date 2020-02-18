@@ -31,8 +31,8 @@ const EditModal = ({ fetchSong, music }) => {
 	});
 
 	const handleOpen = (title, singer) => {
-		setEditItem({title,singer})
-		setOpen(true)
+		setEditItem({ title, singer });
+		setOpen(true);
 	};
 
 	const handleClose = () => {
@@ -41,7 +41,7 @@ const EditModal = ({ fetchSong, music }) => {
 
 	const handleEditItem = async () => {
 		try {
-			const res = await fetch('http://localhost:3000/songs/' + music.id,  {
+			const res = await fetch('http://localhost:3000/songs/' + music.id, {
 				method: 'PUT',
 				body: JSON.stringify(editItem),
 				headers: {
@@ -55,7 +55,6 @@ const EditModal = ({ fetchSong, music }) => {
 		} catch (err) {
 			console.log(err);
 		}
-		
 	};
 
 	const handleChangeTitle = event => {
@@ -113,12 +112,6 @@ const EditModal = ({ fetchSong, music }) => {
 		</div>
 	);
 };
-
-// const mapStateToProps = state => {
-// 	return {
-// 		Songs: state.songs,
-// 	};
-// };
 
 const mapDispatchToProps = dispatch => {
 	return {

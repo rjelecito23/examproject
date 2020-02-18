@@ -121,12 +121,6 @@ const AddModal = ({ fetchSong }) => {
 	);
 };
 
-// const mapStateToProps = state => {
-// 	return {
-// 		Songs: state.songs,
-// 	};
-// };
-
 const mapDispatchToProps = dispatch => {
 	return {
 		fetchSong: () => dispatch(fetchSongs()),

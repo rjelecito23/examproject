@@ -6,11 +6,9 @@ import { connect } from 'react-redux';
 const SearchBar = ({ fetchSong }) => {
 	const [input, setInput] = useState('');
 	const searchTracks = event => {
-		setInput(event.target.value)
-		fetchSong(event.target.value)
-
-	}
-
+		setInput(event.target.value);
+		fetchSong(event.target.value);
+	};
 
 	return (
 		<div>
@@ -19,17 +17,10 @@ const SearchBar = ({ fetchSong }) => {
 	);
 };
 
-// const mapStateToProps = state => {
-// 	return {
-// 		Songs: state.songs,
-// 	}
-// }
-
 const mapDispatchToProps = dispatch => {
 	return {
-		fetchSong: (search) => dispatch(fetchSongs(search))
-	}
-}
+		fetchSong: search => dispatch(fetchSongs(search)),
+	};
+};
 
-export default connect(undefined,mapDispatchToProps)(SearchBar);
-
+export default connect(undefined, mapDispatchToProps)(SearchBar);
