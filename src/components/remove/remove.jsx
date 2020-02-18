@@ -7,9 +7,10 @@ const RemoveRow = ({ music, fetchSong }) => {
 
 	const deleteItem = async (id) => {
 		try {
-			const response = await fetch('http://localhost:3000/songs/' + id ,{
+			const res = await fetch('http://localhost:3000/songs/' + id ,{
 				method: 'DELETE',
 			})
+			console.log(res)
 			fetchSong()
 		} catch (err) {
 			console.log(err)

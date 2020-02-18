@@ -3,17 +3,8 @@ import InputBase from '@material-ui/core/InputBase';
 import { fetchSongs } from '../../store/actions/actions';
 import { connect } from 'react-redux';
 
-const SearchBar = ({ Songs, fetchSong, music }) => {
+const SearchBar = ({ fetchSong }) => {
 	const [input, setInput] = useState('');
-	// const searchTracks = event => {
-	// 	setInput(event.target.value);
-	// 	if (event.target.value) {
-	// 		Songs.filter(item => {
-	// 			console.log(item.title);
-	// 			return item.title.toLowerCase().includes(event.target.value.toLowerCase());
-	// 		});
-	// 	}
-	// };
 	const searchTracks = event => {
 		setInput(event.target.value)
 		fetchSong(event.target.value)
@@ -28,11 +19,11 @@ const SearchBar = ({ Songs, fetchSong, music }) => {
 	);
 };
 
-const mapStateToProps = state => {
-	return {
-		Songs: state.songs,
-	}
-}
+// const mapStateToProps = state => {
+// 	return {
+// 		Songs: state.songs,
+// 	}
+// }
 
 const mapDispatchToProps = dispatch => {
 	return {
@@ -40,6 +31,5 @@ const mapDispatchToProps = dispatch => {
 	}
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(SearchBar);
+export default connect(undefined,mapDispatchToProps)(SearchBar);
 
-// export default SearchBar;

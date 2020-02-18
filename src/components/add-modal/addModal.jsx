@@ -121,11 +121,11 @@ const AddModal = ({ fetchSong }) => {
 	);
 };
 
-const mapStateToProps = state => {
-	return {
-		Songs: state.songs,
-	};
-};
+// const mapStateToProps = state => {
+// 	return {
+// 		Songs: state.songs,
+// 	};
+// };
 
 const mapDispatchToProps = dispatch => {
 	return {
@@ -133,4 +133,4 @@ const mapDispatchToProps = dispatch => {
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddModal);
+export default connect(undefined, mapDispatchToProps)(AddModal);

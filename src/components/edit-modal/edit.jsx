@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-const EditModal = ({ fetchSong, Songs, music }) => {
+const EditModal = ({ fetchSong, music }) => {
 	const classes = useStyles();
 	const [open, setOpen] = useState(false);
 	const [editItem, setEditItem] = useState({
@@ -114,11 +114,11 @@ const EditModal = ({ fetchSong, Songs, music }) => {
 	);
 };
 
-const mapStateToProps = state => {
-	return {
-		Songs: state.songs,
-	};
-};
+// const mapStateToProps = state => {
+// 	return {
+// 		Songs: state.songs,
+// 	};
+// };
 
 const mapDispatchToProps = dispatch => {
 	return {
@@ -126,4 +126,4 @@ const mapDispatchToProps = dispatch => {
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditModal);
+export default connect(undefined, mapDispatchToProps)(EditModal);
