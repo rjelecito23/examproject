@@ -77,10 +77,6 @@ export default function Header() {
           <Typography className={classes.title} variant="h6" noWrap>
             Spotify CRUD
           </Typography>
-          {/* <div className={classes.grow} />
-          <a href="http://localhost:8888">
-      <Button className={classes.font}>Sign In</Button>
-      </a> */}
         </Toolbar>
       </AppBar>
     </div>

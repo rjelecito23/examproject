@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
-import EditIcon from '@material-ui/icons/Edit';
 import Fade from '@material-ui/core/Fade';
 import TextField from '@material-ui/core/TextField';
 import { fetchSongs } from '../../store/actions/actions';
@@ -22,87 +21,66 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-const EditModal = ({ fetchSong, music }) => {
+const EditModal = ({ fetchSong, editItem, setEditItem, isOpen, setIsOpen }) => {
 	const classes = useStyles();
-	const [open, setOpen] = useState(false);
-	const [editItem, setEditItem] = useState({
-		title: '',
-		singer: '',
-	});
-
-	const handleOpen = (title, singer) => {
-		setEditItem({ title, singer });
-		setOpen(true);
+	const handleCloseEditModal = () => {
+		setIsOpen(!isOpen);
 	};
 
-	const handleClose = () => {
-		setOpen(false);
-	};
-
-	const handleEditItem = async () => {
+	const handleEditItem = async id => {
 		try {
-			const res = await fetch('http://localhost:3000/songs/' + music.id, {
+			const res = await fetch('http://localhost:3000/songs/' + id, {
 				method: 'PUT',
 				body: JSON.stringify(editItem),
 				headers: {
 					'Content-type': 'application/json; charset=UTF-8',
 				},
 			});
-			console.log(res);
-			console.log(editItem);
 			fetchSong();
-			setOpen(false);
+			setIsOpen(false);
 		} catch (err) {
 			console.log(err);
 		}
 	};
 
-	const handleChangeTitle = event => {
+	const handleChange = event => {
 		setEditItem({
 			...editItem,
-			title: event.target.value,
-		});
-	};
-	const handleChangeSinger = event => {
-		setEditItem({
-			...editItem,
-			singer: event.target.value,
+			[event.target.id]: event.target.value,
 		});
 	};
 
 	return (
 		<div>
-			<button type="button" onClick={() => handleOpen(music.title, music.singer)}>
-				<EditIcon />
-			</button>
-			<Modal className={classes.modal} open={open} closeAfterTransition>
-				<Fade in={open}>
+			<Modal className={classes.modal} open={isOpen}>
+				<Fade in={isOpen}>
 					<div className="modal-wrapper">
 						<div className="modal-header">
 							<h3>Edit Modal</h3>
-							<span onClick={handleClose}>X</span>
 						</div>
 						<div className="modal-body">
 							<form className={classes.root}>
 								<TextField
 									label="Song"
+									id="title"
 									value={editItem.title}
 									variant="outlined"
-									onChange={handleChangeTitle}
+									onChange={handleChange}
 								/>
 								<TextField
 									label="Singer"
+									id="singer"
 									value={editItem.singer}
 									variant="outlined"
-									onChange={handleChangeSinger}
+									onChange={handleChange}
 								/>
 							</form>
 						</div>
 						<div className="modal-footer">
-							<button className="btn-cancel" onClick={handleClose}>
+							<button className="btn-cancel" onClick={handleCloseEditModal}>
 								Close
 							</button>
-							<button className="btn-save" onClick={handleEditItem}>
+							<button className="btn-save" onClick={() => handleEditItem(editItem.id)}>
 								Save
 							</button>
 						</div>

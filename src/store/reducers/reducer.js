@@ -1,8 +1,8 @@
-import { FETCHING_SONGS_SUCCESS, FETCHING_SONGS_FAILURE } from '../actions/type';
+import { FETCHING_SONGS_SUCCESS, FETCHING_SONGS_FAILURE } from '../actions/constant';
 
 const initialState = {
 	errorMessage: '',
-    songs: [],
+	songsData: [],
 };
 
 const songsReducer = (state = initialState, action) => {
@@ -15,8 +15,8 @@ const songsReducer = (state = initialState, action) => {
 		case FETCHING_SONGS_SUCCESS:
 			return {
 				...state,
-				songs: action.payload,
-            };
+				songsData: action.payload,
+			};
 		default:
 			return state;
 	}

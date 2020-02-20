@@ -1,24 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import Header from '../../components/header/header';
-import { fade, withStyles, makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import EditModal from '../../components/edit-modal/edit';
-import SearchBar from '../../components/search/search';
-import RemoveRow from '../../components/remove/remove';
-import AddModal from '../../components/add-modal/addModal'
+import React, { useEffect } from 'react';
+import Header from '../../components/Header/Header';
+import { fade, makeStyles } from '@material-ui/core/styles';
+import SearchBar from '../../components/SearchBar/SearchBar';
+import AddModal from '../../components/AddModal/AddModal';
+import MyPlaylist from '../../components/MyPlaylist/MyPlaylist';
 import { fetchSongs } from '../../store/actions/actions';
 import { connect } from 'react-redux';
 
 const useStyle = makeStyles(theme => ({
-	table: {
-		minWidth: 650,
-	},
 	search: {
 		position: 'relative',
 		borderRadius: theme.shape.borderRadius,
@@ -36,25 +25,7 @@ const useStyle = makeStyles(theme => ({
 	},
 }));
 
-const StyledTableCell = withStyles(theme => ({
-	head: {
-		backgroundColor: theme.palette.common.black,
-		color: theme.palette.common.white,
-	},
-	body: {
-		fontSize: 14,
-	},
-}))(TableCell);
-
-const StyledTableRow = withStyles(theme => ({
-	root: {
-		'&:nth-of-type(odd)': {
-			backgroundColor: theme.palette.background.default,
-		},
-	},
-}))(TableRow);
-
-function HomePage({ Songs, fetchSong }) {
+function HomePage({ SongsData, fetchSong }) {
 	const classes = useStyle();
 
 	useEffect(() => {
@@ -64,47 +35,26 @@ function HomePage({ Songs, fetchSong }) {
 	return (
 		<div>
 			<Header />
-			<div className={classes.search}><SearchBar fetchSong={fetchSong} /></div>
-			<TableContainer component={Paper}>
-				<Table className={classes.table} arial-label="customized table">
-					<TableHead>
-						<TableRow>
-							<StyledTableCell>Songs</StyledTableCell>
-							<StyledTableCell align="right">Artists</StyledTableCell>
-							<StyledTableCell align="right">Edit</StyledTableCell>
-							<StyledTableCell align="right">Delete</StyledTableCell>
-						</TableRow>
-					</TableHead>
-					<div><AddModal fetchSong={fetchSong} /></div>	
-					<TableBody>
-						{Songs.map(music => (
-							<StyledTableRow key={music.id}>
-								<StyledTableCell component="th" scope="row">
-									{music.title}
-								</StyledTableCell>
-								<StyledTableCell align="right">{music.singer}</StyledTableCell>
-								<StyledTableCell align="right"><EditModal music={music} fetchSong={fetchSong} /></StyledTableCell>
-								<StyledTableCell align="right">
-									<RemoveRow fetchSong={fetchSong} />
-								</StyledTableCell>
-							</StyledTableRow>
-						))}
-					</TableBody>
-				</Table>
-			</TableContainer>
+			<div className={classes.search}>
+				<SearchBar fetchSong={fetchSong} />
+			</div>
+			<div>
+			<AddModal fetchSong={fetchSong} />
+			<MyPlaylist SongsData={SongsData} />
+			</div>
 		</div>
 	);
 }
 
 const mapStateToProps = state => {
 	return {
-		Songs: state.songs,
+		SongsData: state.songsData,
 	};
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
-		fetchSong: () => dispatch(fetchSongs()),
+		fetchSong: search => dispatch(fetchSongs(search)),
 	};
 };
 

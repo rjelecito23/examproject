@@ -4,8 +4,7 @@ import Modal from '@material-ui/core/Modal';
 import AddIcon from '@material-ui/icons/Add';
 import Fade from '@material-ui/core/Fade';
 import TextField from '@material-ui/core/TextField';
-import { fetchSongs } from '../../store/actions/actions';
-import { connect } from 'react-redux';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles(theme => ({
 	modal: {
@@ -23,39 +22,25 @@ const useStyles = makeStyles(theme => ({
 
 const AddModal = ({ fetchSong }) => {
 	const classes = useStyles();
-	const [open, setOpen] = useState(false);
+	const [isOpen, setIsOpen] = useState(false);
 	const [addItem, setAddItem] = useState({
-		id: '',
+		id: new Date().getTime(),
 		title: '',
 		singer: '',
 	});
 
-	const handleOpenModal = () => {
-		setOpen(true);
+	const handleToogleModal = () => {
+		setIsOpen(!isOpen);
+		setAddItem({
+			title: '',
+			singer: ''
+		})
 	};
 
-	const handleCloseModal = () => {
-		setOpen(false);
-	};
-
-	const handleChangeId = event => {
+	const handleChange = event => {
 		setAddItem({
 			...addItem,
-			id: event.target.value,
-		});
-	};
-
-	const handleChangeTitle = event => {
-		setAddItem({
-			...addItem,
-			title: event.target.value,
-		});
-	};
-
-	const handleChangeSinger = event => {
-		setAddItem({
-			...addItem,
-			singer: event.target.value,
+			[event.target.id]: event.target.value,
 		});
 	};
 
@@ -70,8 +55,7 @@ const AddModal = ({ fetchSong }) => {
 			});
 
 			fetchSong();
-			setOpen(false);
-			console.log(res);
+			handleToogleModal();
 		} catch (err) {
 			console.log(err);
 		}
@@ -79,35 +63,35 @@ const AddModal = ({ fetchSong }) => {
 
 	return (
 		<div>
-			<button type="button" onClick={handleOpenModal}>
+			<Button variant="contained" color="primary" type="button" onClick={handleToogleModal}>
 				<AddIcon />
-			</button>
-			<Modal className={classes.modal} open={open} onClose={handleCloseModal} closeAfterTransition>
-				<Fade in={open}>
+			</Button>
+			<Modal className={classes.modal} open={isOpen} onClose={handleToogleModal}>
+				<Fade in={isOpen}>
 					<div className="modal-wrapper">
 						<div className="modal-header">
 							<h3>Add Modal</h3>
-							<span onClick={handleCloseModal}>X</span>
 						</div>
 						<div className="modal-body">
 							<form className={classes.root}>
-								<TextField label="ID" value={addItem.id} variant="outlined" onChange={handleChangeId} />
 								<TextField
 									label="Title"
+									id="title"
 									value={addItem.title}
 									variant="outlined"
-									onChange={handleChangeTitle}
+									onChange={handleChange}
 								/>
 								<TextField
 									label="Singer"
+									id="singer"
 									value={addItem.singer}
 									variant="outlined"
-									onChange={handleChangeSinger}
+									onChange={handleChange}
 								/>
 							</form>
 						</div>
 						<div className="modal-footer">
-							<button className="btn-cancel" onClick={handleCloseModal}>
+							<button className="btn-cancel" onClick={handleToogleModal}>
 								Close
 							</button>
 							<button className="btn-save" onClick={() => handleAddItem()}>
@@ -121,10 +105,4 @@ const AddModal = ({ fetchSong }) => {
 	);
 };
 
-const mapDispatchToProps = dispatch => {
-	return {
-		fetchSong: () => dispatch(fetchSongs()),
-	};
-};
-
-export default connect(undefined, mapDispatchToProps)(AddModal);
+export default AddModal;

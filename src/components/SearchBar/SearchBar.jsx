@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import InputBase from '@material-ui/core/InputBase';
-import { fetchSongs } from '../../store/actions/actions';
-import { connect } from 'react-redux';
 
 const SearchBar = ({ fetchSong }) => {
 	const [input, setInput] = useState('');
+
 	const searchTracks = event => {
 		setInput(event.target.value);
 		fetchSong(event.target.value);
@@ -17,10 +16,4 @@ const SearchBar = ({ fetchSong }) => {
 	);
 };
 
-const mapDispatchToProps = dispatch => {
-	return {
-		fetchSong: search => dispatch(fetchSongs(search)),
-	};
-};
-
-export default connect(undefined, mapDispatchToProps)(SearchBar);
+export default SearchBar;

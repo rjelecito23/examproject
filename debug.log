@@ -1,0 +1,17 @@
+[0219/121738.407:ERROR:file_io.cc(89)] ReadExactly: expected 36, observed 0
+[0219/191016.259:ERROR:crash_report_database_win.cc(428)] unexpected header
+[0219/192016.270:ERROR:crash_report_database_win.cc(428)] unexpected header
+[0219/192016.270:ERROR:crash_report_database_win.cc(428)] unexpected header
+[0219/192516.304:ERROR:crash_report_database_win.cc(428)] unexpected header
+[0219/194214.731:ERROR:crash_report_database_win.cc(428)] unexpected header
+[0220/145112.424:ERROR:crash_report_database_win.cc(428)] unexpected header
+[0220/150112.531:ERROR:crash_report_database_win.cc(428)] unexpected header
+[0220/150112.578:ERROR:crash_report_database_win.cc(428)] unexpected header
+[0220/150612.578:ERROR:crash_report_database_win.cc(428)] unexpected header
+[0220/152113.265:ERROR:crash_report_database_win.cc(428)] unexpected header
+[0220/153618.932:ERROR:crash_report_database_win.cc(428)] unexpected header
+[0220/155130.343:ERROR:crash_report_database_win.cc(428)] unexpected header
+[0220/160631.599:ERROR:crash_report_database_win.cc(428)] unexpected header
+[0220/162137.425:ERROR:crash_report_database_win.cc(428)] unexpected header
+[0220/163638.699:ERROR:crash_report_database_win.cc(428)] unexpected header
+[0220/164813.173:ERROR:crash_report_database_win.cc(428)] unexpected header
